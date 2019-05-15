@@ -55,9 +55,9 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     
     // update activity if its going to be ended
     public func updateEndedActivity(endTime:String,durationInMinutes:Int) -> Bool{
-        let entity = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+        let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
-        request.entity = entity
+        request.entity = entityDescription
         let pred = NSPredicate(format: "isEnded =%@", false)
         request.predicate = pred
         do{
@@ -80,12 +80,17 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     }
     
     // get activities by date
-    public func searchActivityByDate(date:String){
-        let entity = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+    public func searchActivityByDate(date:String) -> [NSManagedObject]{
+        let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
-        request.entity = entity
+        request.entity = entityDescription
         let pred = NSPredicate(format: "date =%@", date)
         request.predicate = pred
-        
+        do {
+            return try nscontext.fetch(request) as! [NSManagedObject]
+        }catch {
+            print("error while fetching activities on the basis of date!")
+            return []
+        }
     }
 }
