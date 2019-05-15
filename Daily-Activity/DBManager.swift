@@ -9,6 +9,19 @@
 import Foundation
 import UIKit
 import CoreData
+
+class DBConstantKeys{
+    public static let entityName            = "DailyActivities"
+    public static let parentActivityName    = "parentActivityName"
+    public static let subActivityName       = "subActivityName"
+    public static let comments              = "comments"
+    public static let date                  = "date"
+    public static let startTime             = "startTime"
+    public static let isEnded               = "isEnded"
+    public static let endTime               = "endTime"
+    public static let durationInMinutes     = "durationInMinutes"
+}
+
 class DBManager { // it's a singleton class which going to manage DB Transactions
     
     // Mark: - properties
@@ -24,12 +37,12 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     // Mark: - instance methods
     // add new activity
     public func addActivity(parentActivityName:String, subActivityName:String?,comments:String, startDate:String, startTime:String) -> Bool{
-        let entity = NSEntityDescription.insertNewObject(forEntityName: "DailyActivities",into: nscontext)
-        entity.setValue(parentActivityName, forKey: "parentActivityName")
-        entity.setValue(subActivityName, forKey: "subActivityName")
-        entity.setValue(comments, forKey: "comments")
-        entity.setValue(startDate, forKey: "date")
-        entity.setValue(startTime, forKey: "startTime")
+        let entity = NSEntityDescription.insertNewObject(forEntityName: DBConstantKeys.entityName,into: nscontext)
+        entity.setValue(parentActivityName, forKey: DBConstantKeys.parentActivityName)
+        entity.setValue(subActivityName, forKey: DBConstantKeys.subActivityName)
+        entity.setValue(comments, forKey: DBConstantKeys.comments)
+        entity.setValue(startDate, forKey: DBConstantKeys.date)
+        entity.setValue(startTime, forKey: DBConstantKeys.startTime)
         do
         {
             try nscontext.save()
@@ -42,8 +55,8 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     
     // update activity if its going to be ended
     public func updateEndedActivity(endTime:String,durationInMinutes:Int) -> Bool{
-        let entity = NSEntityDescription.entity(forEntityName: "DailyActivities",in: nscontext)
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyActivities")
+        let entity = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
         request.entity = entity
         let pred = NSPredicate(format: "isEnded =%@", false)
         request.predicate = pred
@@ -51,9 +64,9 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
             let result = try nscontext.fetch(request)
             if result.count > 0 {
                 let manage = result[0] as! NSManagedObject
-                manage.setValue(true, forKey: "isEnded")
-                manage.setValue(endTime, forKey: "endTime")
-                manage.setValue(String(describing: durationInMinutes), forKey: "durationInMinutes")
+                manage.setValue(true, forKey: DBConstantKeys.isEnded)
+                manage.setValue(endTime, forKey: DBConstantKeys.endTime)
+                manage.setValue(String(describing: durationInMinutes), forKey: DBConstantKeys.durationInMinutes)
                 try nscontext.save()
             }else{
                 print("No activity found to update end actity")
@@ -68,8 +81,8 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     
     // get activities by date
     public func searchActivityByDate(date:String){
-        let entity = NSEntityDescription.entity(forEntityName: "DailyActivities",in: nscontext)
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyActivities")
+        let entity = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
         request.entity = entity
         let pred = NSPredicate(format: "date =%@", date)
         request.predicate = pred
