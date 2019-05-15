@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        setNavigationbarApperance()
         // Override point for customization after application launch.
         return true
     }
@@ -42,6 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+    }
+    
+    //set navigation bar for hole app.
+     func setNavigationbarApperance() {
+        let navigationAppearance = UINavigationBar.appearance()
+        navigationAppearance.tintColor = UIColor.white
+        navigationAppearance.barTintColor = UIColor.white
+        navigationAppearance.shadowImage = UIImage()
+        navigationAppearance.isTranslucent = false
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: UIControl.State.highlighted)
     }
 
     // MARK: - Core Data stack
