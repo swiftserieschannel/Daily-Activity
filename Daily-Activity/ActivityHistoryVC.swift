@@ -8,28 +8,27 @@
 
 import UIKit
 
+var isComeFromHistoryListVC = false
+
 class ActivityHistoryVC : UIViewController {
 
     //MARK:- IBOutlets.
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addActivityBtn: NSLayoutConstraint!
+    var headerTitle  : String?
+    var categorySection : Int?
+
     
     
     //MARK:- LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        setNavigationbarTitle(navigationTitle: headerTitle ?? "Activity")
         // Do any additional setup after loading the view.
     }
 
 
 
 
-    @IBAction func addActivityBtnAction(_ sender: UIButton) {
-        let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     
     
     
@@ -39,12 +38,17 @@ class ActivityHistoryVC : UIViewController {
 //MARK:- UITableView DataSource Methods.
 extension ActivityHistoryVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return (subCategory[categorySection ?? 0]).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ActivityHistoryCell", for: indexPath)
         
+        let activityNameLbl = cell.viewWithTag(100) as! UILabel
+        let startDateLbl = cell.viewWithTag(200) as! UILabel
+        let endDateLbl = cell.viewWithTag(300) as! UILabel
+        
+        activityNameLbl.text = subCategory[categorySection ?? 0][indexPath.row]
         
         return cell
     }
@@ -54,6 +58,10 @@ extension ActivityHistoryVC : UITableViewDataSource {
 //MARK:- UITableView DElegates Methods.
 extension ActivityHistoryVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
+        isComeFromHistoryListVC = true
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
 

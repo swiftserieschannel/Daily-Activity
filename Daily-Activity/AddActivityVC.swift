@@ -20,20 +20,33 @@ class AddActivityVC: UIViewController {
     
     //MARK:- variables.
     let dropDown  = DropDown()
+    
     var selectedIndex = Int()
     
     //MARK:- lifeCycle Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
+      //  commentTV.delegate = self
+        
      startBtn.layer.cornerRadius = 5.0
         self.navigationController?.isNavigationBarHidden = false
     setNavigationbarTitle(navigationTitle: "Add Activity")
+       commentTV.layer.borderWidth = 0.5
+        commentTV.layer.borderColor = UIColor.gray.cgColor
+        commentTV.layer.cornerRadius = 5.0
+        if isComeFromHistoryListVC {
+            startBtn.isHidden = true
+            commentTV.isUserInteractionEnabled = false
+        }else {
+             startBtn.isHidden = false
+            commentTV.isUserInteractionEnabled = true
+        }
         // Do any additional setup after loading the view.
     }
     
     
     func dropDownConfigration(_ sender : UIButton , _ dataArr : [String] )  {
-    
+        if !isComeFromHistoryListVC  {
         dropDown.dataSource = dataArr
         dropDown.anchorView = sender
 //        dropDown.width = 100
@@ -55,6 +68,7 @@ class AddActivityVC: UIViewController {
         dropDown.show()
         dropDown.cancelAction = { [] in
             
+        }
         }
     }
     
