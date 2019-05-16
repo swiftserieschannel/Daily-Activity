@@ -44,28 +44,7 @@ struct Utile {
         return fontSize
     }
     
-    /// This method is used to show activity indicator.
-    static func showActivityIndicator() {
-        let appWindow: UIWindow? = Utile.appDelegate().window
-        activityIndicator.color = UIColor.gray
-        activityIndicator.startAnimating()
-        appWindow?.alpha = 0.9
-        let viewController = getCurrentViewController()
-        viewController?.view.addSubview(activityIndicator)
-        viewController?.view.isUserInteractionEnabled = false
-        viewController?.navigationController?.navigationBar.isUserInteractionEnabled = true
-        Utile.addConstraint(activityIndicator)
-    }
     
-    /// This method is used to hide Activity indicator.
-    static func hideActivityIndicator() {
-        let appWindow: UIWindow? = Utile.appDelegate().window
-        appWindow?.alpha = 1.0
-        activityIndicator.stopAnimating()
-         let viewController = getCurrentViewController()
-         viewController?.view.isUserInteractionEnabled = true
-        activityIndicator.removeFromSuperview()
-    }
     
     /// This method add constraints on activity indicator
     ///
@@ -126,18 +105,13 @@ struct Utile {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: UIControl.State.highlighted)
     }
     
-//    static func navigteToMainVC() {
-//        let appDelegate = UIApplication.shared.delegate! as! AppDelegate
-//        let initialViewController = storyBoard.instantiateViewController(withIdentifier: ControllersNames.customTabBar)
-//        appDelegate.window?.rootViewController = initialViewController
-//        appDelegate.window?.makeKeyAndVisible()
-//    }
    
+    // get current Timestamp
     static func getCurrentTimeStamp()->String{
         let date = Date().timeIntervalSince1970
         return date.description
     }
-    
+    // get current date in specified format
     static func getCurrentDate()->String{
         let date = Date()
         let formatter = DateFormatter()
@@ -146,7 +120,7 @@ struct Utile {
         let result = formatter.string(from: date)
         return result
     }
-    
+    // get current time in hrs and minutes
     static func getCurrentTime()->String{
         let now = Date()
         let formatter = DateFormatter()
@@ -155,7 +129,7 @@ struct Utile {
         let timeString = formatter.string(from: now)
         return timeString
     }
-    
+    // time difference between two times
     static func timeDifference(start:String,end:String) -> Int{
        let startTimeInterval = TimeInterval(start)!
         let endTimeInterval = TimeInterval(end)!

@@ -41,9 +41,13 @@ class ActivitiesListVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         // retrieve all activities from DB
         activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
-        
+        // update data according to current runing activity status
         isAnyActivityRuning = DBManager.shared.isAnyActivityRuning()
-        runingActivity = getRunningActivity()
+        if isAnyActivityRuning{
+                runingActivity = getRunningActivity()
+        }else{
+            runingActivity = nil
+        }
         self.tableView.reloadData()
     }
     
@@ -55,6 +59,7 @@ class ActivitiesListVC: UIViewController {
     }
     
     @objc func moveToNextVC(){
+        // check for runing activity before creating a new activity
         if !isAnyActivityRuning {
             let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
             isComeFromHistoryListVC = false
@@ -119,8 +124,8 @@ class ActivitiesListVC: UIViewController {
     }
     
     // MARK:- Helper methods
-    // calculating total hour to show with parent activity name
     func calculateTotalHour(forParentActivity:String)->Double{
+        // calculating total hour to show with parent activity name
         var totalHours:Double = 0
         for obj in self.activities ?? [] {
             if obj.value(forKey: DBConstantKeys.parentActivityName) as! String == forParentActivity {
@@ -133,6 +138,8 @@ class ActivitiesListVC: UIViewController {
         totalHours = Double(round(100*totalHours)/100)
         return totalHours
     }
+    
+    
     // fiter sub activities data according to selected parent activities
     func filterActivities(forParentActivity:String) -> [NSManagedObject]{
         var activities:[NSManagedObject] = []
@@ -143,6 +150,8 @@ class ActivitiesListVC: UIViewController {
         }
         return activities
     }
+    
+    
     // fetch the current runing activity
     func getRunningActivity() -> NSManagedObject?{
         for obj in self.activities ?? [] {
@@ -185,6 +194,7 @@ extension ActivitiesListVC : UITableViewDataSource , UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ActivityHistoryVC") as! ActivityHistoryVC
+        // filter the activities according to selected parent activity
         vc.subActivities = filterActivities(forParentActivity: categoryArr[indexPath.row])
         vc.headerTitle = categoryArr[indexPath.row]
         vc.categorySection = indexPath.row

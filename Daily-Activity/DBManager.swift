@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+//MARK: - DB CONSTANT KEYS
 class DBConstantKeys{
     public static let entityName            = "DailyActivities"
     public static let parentActivityName    = "parentActivityName"
@@ -51,7 +52,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         {
             try nscontext.save()
         }catch {
-            print("exception while inserting activity into database!")
+            debugPrint("exception while inserting activity into database!")
             return false
         }
         return true
@@ -74,11 +75,11 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
                 manage.setValue(endTimeStamp, forKey: DBConstantKeys.endTimeStamp)
                 try nscontext.save()
             }else{
-                print("No activity found to update end actity")
+                debugPrint("No activity found to update end actity")
                 return false
             }
         }catch{
-            print("exception while updating activity to end the activity!")
+            debugPrint("exception while updating activity to end the activity!")
             return false
         }
         return true
@@ -94,7 +95,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         do {
             return try nscontext.fetch(request) as! [NSManagedObject]
         }catch {
-            print("error while fetching activities on the basis of date!")
+            debugPrint("error while fetching activities on the basis of date!")
             return []
         }
     }
@@ -106,7 +107,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         do {
             return try nscontext.fetch(request) as! [NSManagedObject]
         }catch {
-            print("error while fetching activities on the basis of date!")
+            debugPrint("error while fetching activities on the basis of date!")
             return []
         }
     }
@@ -123,11 +124,11 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
             }
             return true
         } catch let error {
-            print("Detele all data in \(DBConstantKeys.entityName) error :", error)
+            debugPrint("Detele all data in \(DBConstantKeys.entityName) error :", error)
             return false
         }
     }
-    
+    // check if any activity is runing in DB
     public func isAnyActivityRuning() -> Bool {
         let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
@@ -138,7 +139,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
             let activities = try nscontext.fetch(request) as! [NSManagedObject]
             return activities.count > 0 ? true : false
         }catch {
-            print("error while fetching activities on the basis of date!")
+            debugPrint("error while fetching activities on the basis of date!")
             return false
         }
         return false

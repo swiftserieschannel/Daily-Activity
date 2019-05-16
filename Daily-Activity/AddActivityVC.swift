@@ -54,7 +54,7 @@ class AddActivityVC: UIViewController {
                     startBtn.setTitle("Stop", for: .normal)
                 }
             }else{
-                print("subactivity detail not found to populate!")
+                debugPrint("subactivity detail not found to populate!")
             }
             
         }else{
@@ -107,7 +107,7 @@ class AddActivityVC: UIViewController {
 
     //MARK:- screenBtn actions.
     @IBAction func screenBtnActions (_ sender : UIButton) {
-        switch sender.tag {
+        switch sender.tag { // get all buttons by tags
         case 20:
             dropDownConfigration(sender, categoryArr)
         case 30:
@@ -119,19 +119,26 @@ class AddActivityVC: UIViewController {
             }
         case 40 : //startBtn
             if sender.titleLabel?.text == "Start"{ // create new activity in DB
+                
                 let inserted = DBManager.shared.addActivity(parentActivityName: activityLbl.text ?? "", subActivityName: subActivityLbl.text ?? "", comments: commentTV.text, startDate: Utile.getCurrentDate(), startTime: Utile.getCurrentTime(), startTimeStamp: Date().timeIntervalSince1970.description)
-                print(inserted ? "activity added successfully":"activity not added")
+                
+                debugPrint(inserted ? "activity added successfully":"activity not added")
+                
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ActivitiesListVC") as! ActivitiesListVC
                 self.navigationController?.pushViewController(vc, animated: true)
-            }else if sender.title(for: .normal) == "Stop"{ // stop started activity
+            }
+                // if there is an stop button
+            else if sender.title(for: .normal) == "Stop"{ // stop started activity
+                
                 if let obj = endedActivity {
                     let endTimeStamp = Date().timeIntervalSince1970.description
                     let timeDiff = Utile.timeDifference(start: obj.value(forKey: DBConstantKeys.startTimeStamp) as! String, end: Date().timeIntervalSince1970.description)
                     // update data in database to stop activity
                     let updated = DBManager.shared.updateEndedActivity(endTime: Utile.getCurrentTime(), durationInMinutes: timeDiff, endTimeStamp: endTimeStamp)
-                    print(updated ? "Activity stopped":"error while stopping activity")
-                   
-                   self.navigationController?.popToRootViewController(animated: true) 
+                    //change state of any runing activity
+                    isAnyActivityRuning = !updated
+                    debugPrint(updated ? "Activity stopped":"error while stopping activity")
+                   self.navigationController?.popToRootViewController(animated: true)
                 }
             }
             

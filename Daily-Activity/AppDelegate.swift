@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+// global variable to check any Activity is currently runing or not
 var isAnyActivityRuning = false
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,11 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
             statusBar.backgroundColor = UIColor(red: 142/255, green: 6/255, blue: 6/255, alpha: 1.0)
         }
-
+        
       Utile.setNavigationbarApperance()
-        // Override point for customization after application launch.
-      //  DummyData.insertData()
-//        print(DBManager.shared.clearAllActivities())
+        
+        //  DummyData.insertData()
+        //  debugPrint(DBManager.shared.clearAllActivities())
         return true
     }
 
