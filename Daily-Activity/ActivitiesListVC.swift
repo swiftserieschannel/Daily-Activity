@@ -27,7 +27,7 @@ class ActivitiesListVC: UIViewController {
         addRightBarBtn()
         dateTF.tintColor = UIColor.clear
         dateTF.delegate = self
-            
+        
         // Do any additional setup after loading the view.
     }
     
