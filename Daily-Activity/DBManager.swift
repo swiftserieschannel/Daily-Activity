@@ -26,7 +26,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     
     // Mark: - properties
     // shared variable to access instance of DBManager
-    public static var shared:DBManager = DBManager()
+    public static let shared:DBManager = DBManager()
     // db context
     private let nscontext = ((UIApplication.shared.delegate) as!
         AppDelegate).persistentContainer.viewContext
@@ -43,6 +43,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         entity.setValue(comments, forKey: DBConstantKeys.comments)
         entity.setValue(startDate, forKey: DBConstantKeys.date)
         entity.setValue(startTime, forKey: DBConstantKeys.startTime)
+        entity.setValue(NSNumber(value: false), forKey: DBConstantKeys.isEnded)
         do
         {
             try nscontext.save()
@@ -91,6 +92,35 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         }catch {
             print("error while fetching activities on the basis of date!")
             return []
+        }
+    }
+    // retrieve all activities from database
+    public func getAllActivities() -> [NSManagedObject]{
+        let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
+        request.entity = entityDescription
+        do {
+            return try nscontext.fetch(request) as! [NSManagedObject]
+        }catch {
+            print("error while fetching activities on the basis of date!")
+            return []
+        }
+    }
+    
+    // clear DB Data
+    public func clearAllActivities() -> Bool{
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try nscontext.fetch(fetchRequest)
+            for object in results {
+                guard let objectData = object as? NSManagedObject else {continue}
+                nscontext.delete(objectData)
+            }
+            return true
+        } catch let error {
+            print("Detele all data in \(DBConstantKeys.entityName) error :", error)
+            return false
         }
     }
 }
