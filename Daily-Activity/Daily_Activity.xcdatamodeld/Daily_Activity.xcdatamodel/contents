@@ -5,12 +5,14 @@
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="durationInMinutes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endTimeStamp" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isEnded" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="parentActivityName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startTimeStamp" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subActivityName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DailyActivities" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="DailyActivities" positionX="-63" positionY="-18" width="128" height="195"/>
     </elements>
 </model>

@@ -20,6 +20,8 @@ class DBConstantKeys{
     public static let isEnded               = "isEnded"
     public static let endTime               = "endTime"
     public static let durationInMinutes     = "durationInMinutes"
+    public static let startTimeStamp        = "startTimeStamp"
+    public static let endTimeStamp          = "endTimeStamp"
 }
 
 class DBManager { // it's a singleton class which going to manage DB Transactions
@@ -36,7 +38,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     
     // Mark: - instance methods
     // add new activity
-    public func addActivity(parentActivityName:String, subActivityName:String?,comments:String, startDate:String, startTime:String) -> Bool{
+    public func addActivity(parentActivityName:String, subActivityName:String?,comments:String, startDate:String, startTime:String, startTimeStamp:String) -> Bool{
         let entity = NSEntityDescription.insertNewObject(forEntityName: DBConstantKeys.entityName,into: nscontext)
         entity.setValue(parentActivityName, forKey: DBConstantKeys.parentActivityName)
         entity.setValue(subActivityName, forKey: DBConstantKeys.subActivityName)
@@ -44,6 +46,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         entity.setValue(startDate, forKey: DBConstantKeys.date)
         entity.setValue(startTime, forKey: DBConstantKeys.startTime)
         entity.setValue("NO", forKey: DBConstantKeys.isEnded)
+        entity.setValue(startTimeStamp, forKey: DBConstantKeys.startTimeStamp)
         do
         {
             try nscontext.save()
@@ -55,11 +58,11 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
     }
     
     // update activity if its going to be ended
-    public func updateEndedActivity(endTime:String,durationInMinutes:Int) -> Bool{
+    public func updateEndedActivity(endTime:String,durationInMinutes:Int,endTimeStamp:String) -> Bool{
         let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
         request.entity = entityDescription
-        let pred = NSPredicate(format: "isEnded =%@", false)
+        let pred = NSPredicate(format: "isEnded =%@", "NO")
         request.predicate = pred
         do{
             let result = try nscontext.fetch(request)
@@ -68,6 +71,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
                 manage.setValue("YES", forKey: DBConstantKeys.isEnded)
                 manage.setValue(endTime, forKey: DBConstantKeys.endTime)
                 manage.setValue(String(describing: durationInMinutes), forKey: DBConstantKeys.durationInMinutes)
+                manage.setValue(endTimeStamp, forKey: DBConstantKeys.endTimeStamp)
                 try nscontext.save()
             }else{
                 print("No activity found to update end actity")

@@ -7,19 +7,19 @@
 //
 
 import UIKit
-
+import CoreData
 class ActivitiesListVC: UIViewController {
- 
+    
     //MARK:- Outlets..
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateTF: UITextField!
     
     //MARK:- Variables.
-      var rightBarBtn = UIBarButtonItem()
-      let formatterForCurrentDate  = DateFormatter()
-      let datePicker  = UIDatePicker()
-      let currentDate  : NSDate = NSDate()
-    
+    var rightBarBtn = UIBarButtonItem()
+    let formatterForCurrentDate  = DateFormatter()
+    let datePicker  = UIDatePicker()
+    let currentDate  : NSDate = NSDate()
+    var activities :[NSManagedObject]?
     //MARK:- lifeCycle Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +27,12 @@ class ActivitiesListVC: UIViewController {
         addRightBarBtn()
         dateTF.tintColor = UIColor.clear
         dateTF.delegate = self
-        
+        dateTF.text = Utile.getCurrentDate()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        activities = DBManager.shared.searchActivityByDate(date: Utile.getCurrentDate())
     }
     
     //MARK:- Add Bar btn
@@ -37,11 +41,11 @@ class ActivitiesListVC: UIViewController {
         
         navigationItem.rightBarButtonItems = [rightBarBtn]
     }
-
-   @objc func moveToNextVC(){
-    let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
-    isComeFromHistoryListVC = false
-    self.navigationController?.pushViewController(vc, animated: true)
+    
+    @objc func moveToNextVC(){
+        let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
+        isComeFromHistoryListVC = false
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK:- showDatePIcker.
@@ -50,13 +54,13 @@ class ActivitiesListVC: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
         datePicker.datePickerMode = .date
-                //set min or max date in date picker
-            let gregorian: NSCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
-            let components: NSDateComponents = NSDateComponents()
-            components.year = -50
-            let minDate: NSDate = gregorian.date(byAdding: components as DateComponents, to: currentDate as Date, options: NSCalendar.Options(rawValue: 0))! as NSDate
-            datePicker.maximumDate = currentDate as Date
-            datePicker.minimumDate = minDate as Date
+        //set min or max date in date picker
+        let gregorian: NSCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
+        let components: NSDateComponents = NSDateComponents()
+        components.year = -50
+        let minDate: NSDate = gregorian.date(byAdding: components as DateComponents, to: currentDate as Date, options: NSCalendar.Options(rawValue: 0))! as NSDate
+        datePicker.maximumDate = currentDate as Date
+        datePicker.minimumDate = minDate as Date
         
         
         //ToolBar
@@ -92,32 +96,58 @@ class ActivitiesListVC: UIViewController {
         self.view.endEditing(true)
     }
     
+    // MARK:- Helper methods
+    func calculateTotalHour(forParentActivity:String)->Double{
+        var totalHours:Double = 0
+        for obj in self.activities ?? [] {
+            if obj.value(forKey: DBConstantKeys.parentActivityName) as! String == forParentActivity {
+                if let duration = obj.value(forKey: DBConstantKeys.durationInMinutes) as? String{
+                    totalHours += Double(duration)!
+                }
+            }
+        }
+        totalHours /= 60
+        return totalHours
+    }
+    
+    func filterActivities(forParentActivity:String) -> [NSManagedObject]{
+        var activities:[NSManagedObject] = []
+        for obj in self.activities ?? [] {
+            if obj.value(forKey: DBConstantKeys.parentActivityName) as! String == forParentActivity {
+                activities.append(obj)
+            }
+        }
+        return activities
+    }
+    
 }
 
 //MARK:- UItableView dataSource and Delegate methods.
 extension ActivitiesListVC : UITableViewDataSource , UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return categoryArr.count
+        return categoryArr.count
     }
     
-  
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ActivityListCell")else { return  UITableViewCell()}
-            
-            cell.textLabel?.text = categoryArr[indexPath.row]
-            return cell
-    
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ActivityListCell")else { return  UITableViewCell()}
+        
+        cell.textLabel?.text = categoryArr[indexPath.row]
+        cell.detailTextLabel?.text = self.calculateTotalHour(forParentActivity: categoryArr[indexPath.row]).description.appending("hr")
+        return cell
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ActivityHistoryVC") as! ActivityHistoryVC
+        vc.subActivities = filterActivities(forParentActivity: categoryArr[indexPath.row])
         vc.headerTitle = categoryArr[indexPath.row]
         vc.categorySection = indexPath.row
         navigationController?.pushViewController(vc, animated: true)
-            
+        
     }
     
 }

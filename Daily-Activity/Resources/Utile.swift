@@ -133,4 +133,35 @@ struct Utile {
 //        appDelegate.window?.makeKeyAndVisible()
 //    }
    
+    static func getCurrentTimeStamp()->String{
+        let date = Date().timeIntervalSince1970
+        return date.description
+    }
+    
+    static func getCurrentDate()->String{
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "dd-MM-yyyy"
+        let result = formatter.string(from: date)
+        return result
+    }
+    
+    static func getCurrentTime()->String{
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "HH:mm"
+        let timeString = formatter.string(from: now)
+        return timeString
+    }
+    
+    static func timeDifference(start:String,end:String) -> Int{
+       let startTimeInterval = TimeInterval(start)!
+        let endTimeInterval = TimeInterval(start)!
+        let diff = Int(endTimeInterval - startTimeInterval)
+        let hours = diff / 3600
+        let minutes = (diff - hours * 3600) / 60
+        return minutes
+    }
 }

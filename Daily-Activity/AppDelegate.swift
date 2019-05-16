@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //        print(DBManager.shared.clearAllActivities())
         
+       // print(DBManager.shared.updateEndedActivity(endTime: "16:15", durationInMinutes: 66))
         
         return true
     }

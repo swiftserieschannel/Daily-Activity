@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1733C30C228D613900C99E20 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C30B228D613900C99E20 /* ViewController+Extension.swift */; };
 		17C2D013228C85D500F130C2 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C2D012228C85D500F130C2 /* DBManager.swift */; };
 		5A52C67F5D09EE9380F5E9DD /* Pods_Daily_Activity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046EC54C1BA7786B146677DE /* Pods_Daily_Activity.framework */; };
 		8FC564DC228BCFF60064151F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC564DB228BCFF60064151F /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		046EC54C1BA7786B146677DE /* Pods_Daily_Activity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Daily_Activity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1733C30B228D613900C99E20 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		17C2D012228C85D500F130C2 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		6FD553DD583EFCC4DF56CA97 /* Pods-Daily-Activity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Daily-Activity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Daily-Activity/Pods-Daily-Activity.debug.xcconfig"; sourceTree = "<group>"; };
 		8FC564D8228BCFF60064151F /* Daily-Activity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily-Activity.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1733C30A228D612200C99E20 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1733C30B228D613900C99E20 /* ViewController+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5D38B697D741B783CAD583AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +95,7 @@
 		8FC564DA228BCFF60064151F /* Daily-Activity */ = {
 			isa = PBXGroup;
 			children = (
+				1733C30A228D612200C99E20 /* Extensions */,
 				8FC564DB228BCFF60064151F /* AppDelegate.swift */,
 				8FC564DD228BCFF60064151F /* ActivityHistoryVC.swift */,
 				8FC564F0228BEC3F0064151F /* AddActivityVC.swift */,
@@ -248,6 +259,7 @@
 				17C2D013228C85D500F130C2 /* DBManager.swift in Sources */,
 				8FC564F7228BEEF90064151F /* UIDeviceExtension.swift in Sources */,
 				8FC564DE228BCFF60064151F /* ActivityHistoryVC.swift in Sources */,
+				1733C30C228D613900C99E20 /* ViewController+Extension.swift in Sources */,
 				8FC564FC228BF2750064151F /* LabelDesign.swift in Sources */,
 				8FC564DC228BCFF60064151F /* AppDelegate.swift in Sources */,
 			);
