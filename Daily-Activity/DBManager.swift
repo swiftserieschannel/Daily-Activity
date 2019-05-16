@@ -43,7 +43,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         entity.setValue(comments, forKey: DBConstantKeys.comments)
         entity.setValue(startDate, forKey: DBConstantKeys.date)
         entity.setValue(startTime, forKey: DBConstantKeys.startTime)
-        entity.setValue("YES", forKey: DBConstantKeys.isEnded)
+        entity.setValue("NO", forKey: DBConstantKeys.isEnded)
         do
         {
             try nscontext.save()
@@ -65,7 +65,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
             let result = try nscontext.fetch(request)
             if result.count > 0 {
                 let manage = result[0] as! NSManagedObject
-                manage.setValue(true, forKey: DBConstantKeys.isEnded)
+                manage.setValue("YES", forKey: DBConstantKeys.isEnded)
                 manage.setValue(endTime, forKey: DBConstantKeys.endTime)
                 manage.setValue(String(describing: durationInMinutes), forKey: DBConstantKeys.durationInMinutes)
                 try nscontext.save()
