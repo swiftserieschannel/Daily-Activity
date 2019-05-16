@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
       Utile.setNavigationbarApperance()
         // Override point for customization after application launch.
+
 //        let inserted = DBManager.shared.addActivity(parentActivityName: "Sports", subActivityName: "Cricket", comments: "this is testing of db", startDate: "12 march, 2018", startTime: "08:45")
 //        print("data insertion is \(inserted)")
 //        let objects = DBManager.shared.getAllActivities()
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        print(objects[0].value(forKey: DBConstantKeys.comments)!)
 ////        print(objects[0].value(forKey: DBConstantKeys.isEnded)!)
 //        print(objects[0])
+
 //        print(DBManager.shared.clearAllActivities())
         
         

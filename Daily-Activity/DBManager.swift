@@ -43,7 +43,7 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
         entity.setValue(comments, forKey: DBConstantKeys.comments)
         entity.setValue(startDate, forKey: DBConstantKeys.date)
         entity.setValue(startTime, forKey: DBConstantKeys.startTime)
-        entity.setValue(NSNumber(value: false), forKey: DBConstantKeys.isEnded)
+        entity.setValue("YES", forKey: DBConstantKeys.isEnded)
         do
         {
             try nscontext.save()
