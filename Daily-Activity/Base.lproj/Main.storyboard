@@ -29,7 +29,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="103"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u2G-RJ-8OM">
+                                                <view tag="400" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u2G-RJ-8OM">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="98"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Name    :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBt-A1-KU8" customClass="LabelDesign" customModule="Daily_Activity" customModuleProvider="target">

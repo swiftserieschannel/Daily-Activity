@@ -65,6 +65,8 @@ class ActivitiesListVC: UIViewController {
     }
     
     //MARK:- showDatePIcker.
+    
+    // settingup date picker
     func showDatePicker(){
         //Formate Date
         let formatter = DateFormatter()
@@ -168,8 +170,14 @@ extension ActivitiesListVC : UITableViewDataSource , UITableViewDelegate {
         
         cell.textLabel?.text = categoryArr[indexPath.row]
         cell.detailTextLabel?.text = self.calculateTotalHour(forParentActivity: categoryArr[indexPath.row]).description.appending("hr")
+        // any if activity runing related to current parent activity then change bg color
         if let runingActivity = self.runingActivity {
-            
+            if runingActivity.value(forKey: DBConstantKeys.parentActivityName) as! String  == categoryArr[indexPath.row]{
+                cell.backgroundColor = UIColor.green.withAlphaComponent(0.4)
+            }
+            else{
+                cell.backgroundColor = UIColor.white
+            }
         }
         return cell
         
@@ -180,6 +188,10 @@ extension ActivitiesListVC : UITableViewDataSource , UITableViewDelegate {
         vc.subActivities = filterActivities(forParentActivity: categoryArr[indexPath.row])
         vc.headerTitle = categoryArr[indexPath.row]
         vc.categorySection = indexPath.row
+        if let runingActivity = self.runingActivity{
+            vc.runingActivity = runingActivity
+        }
+        
         navigationController?.pushViewController(vc, animated: true)
         
     }

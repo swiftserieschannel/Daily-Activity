@@ -16,8 +16,9 @@ class ActivityHistoryVC : UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var headerTitle  : String?
     var categorySection : Int?
+    // activities coming from previous screen
     var subActivities:[NSManagedObject] = []
-    
+    var runingActivity:NSManagedObject?
     
     //MARK:- LifeCycle Methods
     override func viewDidLoad() {
@@ -47,15 +48,27 @@ extension ActivityHistoryVC : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ActivityHistoryCell", for: indexPath)
+        // get activity for particular row
         let obj = subActivities[indexPath.row]
+        // getting views by their tags
         let activityNameLbl = cell.viewWithTag(100) as! UILabel
         let startDateLbl = cell.viewWithTag(200) as! UILabel
         let endDateLbl = cell.viewWithTag(300) as! UILabel
-        
+        let bgView      = cell.viewWithTag(400) as! UIView
+        // set the extracted db data on cell
         activityNameLbl.text = (obj.value(forKey: DBConstantKeys.subActivityName) as! String)
         startDateLbl.text   = (obj.value(forKey: DBConstantKeys.startTime) as! String)
         if let endTime = obj.value(forKey: DBConstantKeys.endTime) as? String{
             endDateLbl.text = endTime
+        }
+        // changing background color if activity current runing by comparing start timestamp
+        if let runingActivity = self.runingActivity {
+            if runingActivity.value(forKey: DBConstantKeys.startTimeStamp) as! String  == subActivities[indexPath.row].value(forKey: DBConstantKeys.startTimeStamp) as! String{
+                bgView.backgroundColor = UIColor.green.withAlphaComponent(0.4)
+            }
+            else{
+                bgView.backgroundColor = UIColor.white
+            }
         }
         return cell
     }
