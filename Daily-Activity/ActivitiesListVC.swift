@@ -20,21 +20,30 @@ class ActivitiesListVC: UIViewController {
     let formatterForCurrentDate  = DateFormatter()
     let datePicker  = UIDatePicker()
     let currentDate  : NSDate = NSDate()
+    
+    //activites from DB
     var activities :[NSManagedObject]?
+    var runingActivity :NSManagedObject?
+    
     //MARK:- lifeCycle Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
+        // configuring navigation bar
         setNavigationbarTitle(navigationTitle: "Activities")
         addRightBarBtn()
+        // date textfield view setup
         dateTF.tintColor = UIColor.clear
         dateTF.delegate = self
         dateTF.text = Utile.getCurrentDate()
-        // Do any additional setup after loading the view.
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        // retrieve all activities from DB
         activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
+        
         isAnyActivityRuning = DBManager.shared.isAnyActivityRuning()
+        runingActivity = getRunningActivity()
         self.tableView.reloadData()
     }
     
@@ -47,9 +56,9 @@ class ActivitiesListVC: UIViewController {
     
     @objc func moveToNextVC(){
         if !isAnyActivityRuning {
-        let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
-        isComeFromHistoryListVC = false
-        self.navigationController?.pushViewController(vc, animated: true)
+            let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
+            isComeFromHistoryListVC = false
+            self.navigationController?.pushViewController(vc, animated: true)
         }else{
             self.showAlert(message: "Already an activity is runing!")
         }
@@ -92,6 +101,7 @@ class ActivitiesListVC: UIViewController {
         
     }
     
+    // action for clicked on done button
     @objc func donedatePicker(){
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
@@ -101,12 +111,13 @@ class ActivitiesListVC: UIViewController {
         activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
         self.tableView.reloadData()
     }
-    
+    // action for clicked on cancel button
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
     
     // MARK:- Helper methods
+    // calculating total hour to show with parent activity name
     func calculateTotalHour(forParentActivity:String)->Double{
         var totalHours:Double = 0
         for obj in self.activities ?? [] {
@@ -120,7 +131,7 @@ class ActivitiesListVC: UIViewController {
         totalHours = Double(round(100*totalHours)/100)
         return totalHours
     }
-    
+    // fiter sub activities data according to selected parent activities
     func filterActivities(forParentActivity:String) -> [NSManagedObject]{
         var activities:[NSManagedObject] = []
         for obj in self.activities ?? [] {
@@ -129,6 +140,15 @@ class ActivitiesListVC: UIViewController {
             }
         }
         return activities
+    }
+    // fetch the current runing activity
+    func getRunningActivity() -> NSManagedObject?{
+        for obj in self.activities ?? [] {
+            if obj.value(forKey: DBConstantKeys.isEnded) as! String == "NO"{
+                return obj
+            }
+        }
+        return nil
     }
     
 }
@@ -148,6 +168,9 @@ extension ActivitiesListVC : UITableViewDataSource , UITableViewDelegate {
         
         cell.textLabel?.text = categoryArr[indexPath.row]
         cell.detailTextLabel?.text = self.calculateTotalHour(forParentActivity: categoryArr[indexPath.row]).description.appending("hr")
+        if let runingActivity = self.runingActivity {
+            
+        }
         return cell
         
     }
