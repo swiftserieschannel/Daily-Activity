@@ -115,6 +115,17 @@ struct Utile {
         return currentVC
     }
     
+    //set navigation bar for hole app.
+   static func setNavigationbarApperance() {
+        let navigationAppearance = UINavigationBar.appearance()
+        navigationAppearance.tintColor = UIColor.white
+        navigationAppearance.barTintColor = UIColor(red: 175/255, green: 35/255, blue: 42/255, alpha: 1.0)
+        navigationAppearance.shadowImage = UIImage()
+        navigationAppearance.isTranslucent = false
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: UIControl.State.highlighted)
+    }
+    
 //    static func navigteToMainVC() {
 //        let appDelegate = UIApplication.shared.delegate! as! AppDelegate
 //        let initialViewController = storyBoard.instantiateViewController(withIdentifier: ControllersNames.customTabBar)

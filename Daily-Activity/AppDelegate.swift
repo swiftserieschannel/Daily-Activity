@@ -16,8 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setNavigationbarApperance()
+        
+        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusBar.backgroundColor = UIColor(red: 142/255, green: 6/255, blue: 6/255, alpha: 1.0)
+        }
+
+      Utile.setNavigationbarApperance()
         // Override point for customization after application launch.
+
 //        let inserted = DBManager.shared.addActivity(parentActivityName: "Sports", subActivityName: "Cricket", comments: "this is testing of db", startDate: "12 march, 2018", startTime: "08:45")
 //        print("data insertion is \(inserted)")
 //        let objects = DBManager.shared.getAllActivities()
@@ -27,8 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        print(objects[0].value(forKey: DBConstantKeys.comments)!)
 //        print(objects[0].value(forKey: DBConstantKeys.isEnded)!)
 //        print(objects[0])
+
 //        let obj = DBManager.shared.searchActivityByDate(date: "12 march, 2018")
 //        print(obj[0].value(forKey: DBConstantKeys.parentActivityName))
+//        print(objects[0])
+
 //        print(DBManager.shared.clearAllActivities())
         
         
@@ -59,16 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
     
-    //set navigation bar for hole app.
-     func setNavigationbarApperance() {
-        let navigationAppearance = UINavigationBar.appearance()
-        navigationAppearance.tintColor = UIColor.white
-        navigationAppearance.barTintColor = UIColor.white
-        navigationAppearance.shadowImage = UIImage()
-        navigationAppearance.isTranslucent = false
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: .normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: UIControl.State.highlighted)
-    }
+  
 
     // MARK: - Core Data stack
 
