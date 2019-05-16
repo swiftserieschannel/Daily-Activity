@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1733C30C228D613900C99E20 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C30B228D613900C99E20 /* ViewController+Extension.swift */; };
+		1733C30E228DBC4C00C99E20 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C30D228DBC4B00C99E20 /* DummyData.swift */; };
 		17C2D013228C85D500F130C2 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C2D012228C85D500F130C2 /* DBManager.swift */; };
 		5A52C67F5D09EE9380F5E9DD /* Pods_Daily_Activity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046EC54C1BA7786B146677DE /* Pods_Daily_Activity.framework */; };
 		8FC564DC228BCFF60064151F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC564DB228BCFF60064151F /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		046EC54C1BA7786B146677DE /* Pods_Daily_Activity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Daily_Activity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1733C30B228D613900C99E20 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
+		1733C30D228DBC4B00C99E20 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		17C2D012228C85D500F130C2 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		6FD553DD583EFCC4DF56CA97 /* Pods-Daily-Activity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Daily-Activity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Daily-Activity/Pods-Daily-Activity.debug.xcconfig"; sourceTree = "<group>"; };
 		8FC564D8228BCFF60064151F /* Daily-Activity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily-Activity.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 				8FC564EA228BCFFD0064151F /* Info.plist */,
 				8FC564E2228BCFF60064151F /* Daily_Activity.xcdatamodeld */,
 				17C2D012228C85D500F130C2 /* DBManager.swift */,
+				1733C30D228DBC4B00C99E20 /* DummyData.swift */,
 			);
 			path = "Daily-Activity";
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1733C30E228DBC4C00C99E20 /* DummyData.swift in Sources */,
 				8FC564FA228BEFE40064151F /* Constant.swift in Sources */,
 				8FC564E4228BCFF60064151F /* Daily_Activity.xcdatamodeld in Sources */,
 				8FC564FE228C40230064151F /* ActivitiesListVC.swift in Sources */,

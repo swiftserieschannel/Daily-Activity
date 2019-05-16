@@ -32,7 +32,8 @@ class ActivitiesListVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        activities = DBManager.shared.searchActivityByDate(date: Utile.getCurrentDate())
+        activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
+        self.tableView.reloadData()
     }
     
     //MARK:- Add Bar btn
@@ -90,6 +91,9 @@ class ActivitiesListVC: UIViewController {
         formatter.dateFormat = "dd-MM-yyyy"
         dateTF.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
+        // get data from database for particular date
+        activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
+        self.tableView.reloadData()
     }
     
     @objc func cancelDatePicker(){
@@ -107,6 +111,7 @@ class ActivitiesListVC: UIViewController {
             }
         }
         totalHours /= 60
+        totalHours = Double(round(100*totalHours)/100)
         return totalHours
     }
     

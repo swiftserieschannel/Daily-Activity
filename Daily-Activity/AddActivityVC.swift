@@ -130,7 +130,8 @@ class AddActivityVC: UIViewController {
                     // update data in database to stop activity
                     let updated = DBManager.shared.updateEndedActivity(endTime: Utile.getCurrentTime(), durationInMinutes: timeDiff, endTimeStamp: endTimeStamp)
                     print(updated ? "Activity stopped":"error while stopping activity")
-                    self.navigationController?.popToViewController((self.storyboard?.instantiateViewController(withIdentifier: "ActivitiesListVC") as? ActivitiesListVC)!, animated: true)
+                   
+                   self.navigationController?.popToRootViewController(animated: true) 
                 }
             }
             

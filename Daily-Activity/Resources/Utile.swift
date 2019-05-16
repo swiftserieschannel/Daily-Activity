@@ -158,7 +158,7 @@ struct Utile {
     
     static func timeDifference(start:String,end:String) -> Int{
        let startTimeInterval = TimeInterval(start)!
-        let endTimeInterval = TimeInterval(start)!
+        let endTimeInterval = TimeInterval(end)!
         let diff = Int(endTimeInterval - startTimeInterval)
         let hours = diff / 3600
         let minutes = (diff - hours * 3600) / 60
