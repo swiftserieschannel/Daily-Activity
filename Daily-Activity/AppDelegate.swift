@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-
+var isAnyActivityRuning = false
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

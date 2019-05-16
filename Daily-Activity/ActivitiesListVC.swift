@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+
 class ActivitiesListVC: UIViewController {
     
     //MARK:- Outlets..
@@ -33,6 +34,7 @@ class ActivitiesListVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
+        isAnyActivityRuning = DBManager.shared.isAnyActivityRuning()
         self.tableView.reloadData()
     }
     
@@ -44,9 +46,13 @@ class ActivitiesListVC: UIViewController {
     }
     
     @objc func moveToNextVC(){
+        if !isAnyActivityRuning {
         let vc = storyBoard.instantiateViewController(withIdentifier: "AddActivityVC") as! AddActivityVC
         isComeFromHistoryListVC = false
         self.navigationController?.pushViewController(vc, animated: true)
+        }else{
+            self.showAlert(message: "Already an activity is runing!")
+        }
     }
     
     //MARK:- showDatePIcker.

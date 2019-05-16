@@ -127,4 +127,20 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
             return false
         }
     }
+    
+    public func isAnyActivityRuning() -> Bool {
+        let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
+        request.entity = entityDescription
+        let pred = NSPredicate(format: "isEnded =%@", "NO")
+        request.predicate = pred
+        do {
+            let activities = try nscontext.fetch(request) as! [NSManagedObject]
+            return activities.count > 0 ? true : false
+        }catch {
+            print("error while fetching activities on the basis of date!")
+            return false
+        }
+        return false
+    }
 }
