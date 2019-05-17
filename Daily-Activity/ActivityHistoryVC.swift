@@ -30,12 +30,7 @@ class ActivityHistoryVC : UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()
     }
-    
-    
-    
-    
-    
-    
+      
 }
 
 

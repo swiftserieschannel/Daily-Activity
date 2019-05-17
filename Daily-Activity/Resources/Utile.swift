@@ -138,4 +138,18 @@ struct Utile {
         let minutes = (diff - hours * 3600) / 60
         return minutes
     }
+    
+    static func getTimeStamp(forDate:String, forTime:String)->String{
+        let completeDate = forDate.appending(forTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:MM"
+        let date: Date? = dateFormatter.date(from: completeDate)
+        if let date = date {
+            print("date=\(date)")
+        }
+        let interval: TimeInterval? = date?.timeIntervalSince1970
+        print("interval=\(interval ?? 0.0)")
+        return interval?.description ?? Date().timeIntervalSince1970.description
+    }
 }

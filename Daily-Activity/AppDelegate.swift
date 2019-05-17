@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
       Utile.setNavigationbarApperance()
         
+//        let inserted3 = DBManager.shared.addActivity(parentActivityName: "Reading", subActivityName: "News", comments: "this is testing of db", startDate: "14-05-2019", startTime: "15:39", startTimeStamp: String(describing: 1557848387))
+//        print("data insertion is \(inserted3)")
         //  DummyData.insertData()
         //  debugPrint(DBManager.shared.clearAllActivities())
         return true

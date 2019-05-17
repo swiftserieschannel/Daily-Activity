@@ -142,6 +142,35 @@ class DBManager { // it's a singleton class which going to manage DB Transaction
             debugPrint("error while fetching activities on the basis of date!")
             return false
         }
-        return false
+    }
+    
+    // stop activities that are runing from previous days
+    public func stopLongRuningActivities(runingActivity:NSManagedObject)->Bool{
+        let entityDescription = NSEntityDescription.entity(forEntityName: DBConstantKeys.entityName,in: nscontext)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: DBConstantKeys.entityName)
+        request.entity = entityDescription
+        let pred = NSPredicate(format: "isEnded =%@", "NO")
+        request.predicate = pred
+        do{
+            let result = try nscontext.fetch(request)
+            if result.count > 0 {
+                let manage = result[0] as! NSManagedObject
+                // calculating activity end timestamp
+                let startTimeStamp = runingActivity.value(forKey: DBConstantKeys.startTimeStamp) as! String
+                manage.setValue("YES", forKey: DBConstantKeys.isEnded)
+                manage.setValue("11:59", forKey: DBConstantKeys.endTime)
+                let endTimeStamp = Utile.getTimeStamp(forDate: runingActivity.value(forKey: DBConstantKeys.date) as! String, forTime: runingActivity.value(forKey: DBConstantKeys.endTime) as! String)
+                manage.setValue(Utile.timeDifference(start: startTimeStamp, end: endTimeStamp).description, forKey: DBConstantKeys.durationInMinutes)
+                manage.setValue(endTimeStamp, forKey: DBConstantKeys.endTimeStamp)
+                try nscontext.save()
+            }else{
+                debugPrint("No activity found to update end actity")
+                return false
+            }
+        }catch{
+            debugPrint("exception while updating activity to end the activity!")
+            return false
+        }
+        return true
     }
 }

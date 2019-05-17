@@ -39,16 +39,7 @@ class ActivitiesListVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        // retrieve all activities from DB
-        activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
-        // update data according to current runing activity status
-        isAnyActivityRuning = DBManager.shared.isAnyActivityRuning()
-        if isAnyActivityRuning{
-                runingActivity = getRunningActivity()
-        }else{
-            runingActivity = nil
-        }
-        self.tableView.reloadData()
+        self.manageActivities()
     }
     
     //MARK:- Add Bar btn
@@ -115,8 +106,7 @@ class ActivitiesListVC: UIViewController {
         dateTF.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
         // get data from database for particular date
-        activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
-        self.tableView.reloadData()
+        self.manageActivities()
     }
     // action for clicked on cancel button
     @objc func cancelDatePicker(){
@@ -139,6 +129,20 @@ class ActivitiesListVC: UIViewController {
         return totalHours
     }
     
+    // manage activities according to selected date
+    func manageActivities(){
+        // retrieve all activities from DB
+        activities = DBManager.shared.searchActivityByDate(date: dateTF.text ?? Utile.getCurrentDate())
+        // update data according to current runing activity status
+        isAnyActivityRuning = DBManager.shared.isAnyActivityRuning()
+        if isAnyActivityRuning{
+            runingActivity = getRunningActivity()
+        }else{
+            runingActivity = nil
+        }
+        stopPreviousDaysActivity()
+        self.tableView.reloadData()
+    }
     
     // fiter sub activities data according to selected parent activities
     func filterActivities(forParentActivity:String) -> [NSManagedObject]{
@@ -160,6 +164,19 @@ class ActivitiesListVC: UIViewController {
             }
         }
         return nil
+    }
+    
+    func stopPreviousDaysActivity(){
+        if let runingActivity = self.runingActivity {
+            if runingActivity.value(forKey: DBConstantKeys.date) as! String != Utile.getCurrentDate() {
+                let stopped = DBManager.shared.stopLongRuningActivities(runingActivity: self.runingActivity!)
+                stopped ? self.showAlert(message: "Previous day activity stopped automatically") : debugPrint("error while stopping previous day activity!")
+                if stopped {
+                    self.runingActivity = nil
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
 }
